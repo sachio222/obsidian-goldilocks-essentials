@@ -1,0 +1,18 @@
+/* Tab colors (tabColorsRename feature) */
+.workspace-tab-header.has-tab-color {
+  border-bottom: 3px solid var(--tab-color) !important;
+}
+
+.workspace-tab-header.has-tab-color.is-active {
+  border-bottom: 3px solid var(--tab-color) !important;
+}
+
+.workspace-tab-header.has-tab-color .workspace-tab-header-inner-title {
+  color: var(--tab-color);
+}
+
+/* Folder selection highlight (newNoteInFolder feature) */
+.nav-folder-title.is-selected-folder {
+  background-color: var(--background-modifier-hover);
+  border-radius: 4px;
+}
