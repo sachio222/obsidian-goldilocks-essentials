@@ -2,6 +2,7 @@ import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import type GoldilocksEssentialsPlugin from "./main";
 import { FEATURES } from "./main";
 import { displayName, findConflictingPlugin } from "./conflicts";
+import type { CompactTableSize } from "./types";
 
 export class GoldilocksSettingTab extends PluginSettingTab {
   constructor(
@@ -37,6 +38,22 @@ export class GoldilocksSettingTab extends PluginSettingTab {
           new Notice(`${feature.name}: ${value ? "enabled" : "disabled"}. Reload plugin to apply.`);
         }),
       );
+
+      if (feature.id === "compact-tables" && this.plugin.isFeatureEnabled(feature.id)) {
+        setting.settingEl.addClass("has-goldilocks-density");
+        const densityRow = setting.settingEl.createDiv({ cls: "goldilocks-density-row" });
+        densityRow.createSpan({ text: "Choose Small or Extra small density.", cls: "goldilocks-density-label" });
+        const select = densityRow.createEl("select", { cls: "dropdown" });
+        select.createEl("option", { text: "Extra small", value: "xs" });
+        select.createEl("option", { text: "Small", value: "sm" });
+        select.value = this.plugin.settings.compactTableSize;
+        select.addEventListener("change", async () => {
+          this.plugin.settings.compactTableSize = select.value as CompactTableSize;
+          await this.plugin.saveSettings();
+          const label = select.value === "xs" ? "Extra small" : "Small";
+          new Notice(`Table density: ${label}. Reload plugin to apply.`);
+        });
+      }
     }
 
     new Setting(containerEl)

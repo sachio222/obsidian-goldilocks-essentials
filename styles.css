@@ -16,3 +16,24 @@
   background-color: var(--background-modifier-hover);
   border-radius: 4px;
 }
+
+/* Compact tables density picker (settings UI) */
+.setting-item.has-goldilocks-density {
+  flex-wrap: wrap;
+}
+
+.goldilocks-density-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--background-modifier-hover);
+  border-radius: 6px;
+}
+
+.goldilocks-density-label {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}

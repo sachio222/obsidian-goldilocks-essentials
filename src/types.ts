@@ -9,14 +9,18 @@ export interface Feature {
   unload(plugin: GoldilocksEssentialsPlugin): void;
 }
 
+export type CompactTableSize = "xs" | "sm";
+
 export interface GoldilocksSettings {
   enabled: Record<string, boolean>;
   customTitles: Record<string, string>;
   tabColors: Record<string, string>;
+  compactTableSize: CompactTableSize;
 }
 
 export const DEFAULT_SETTINGS: GoldilocksSettings = {
   enabled: {},
   customTitles: {},
   tabColors: {},
+  compactTableSize: "xs",
 };

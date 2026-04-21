@@ -7,6 +7,7 @@ import { pressEForEdit } from "./features/pressEForEdit";
 import { printFromMenu } from "./features/printFromMenu";
 import { newNoteInFolder } from "./features/newNoteInFolder";
 import { tabColorsRename } from "./features/tabColorsRename";
+import { compactTables } from "./features/compactTables";
 
 export const FEATURES: Feature[] = [
   pluginShortcut,
@@ -14,6 +15,7 @@ export const FEATURES: Feature[] = [
   newNoteInFolder,
   printFromMenu,
   pressEForEdit,
+  compactTables,
 ];
 
 export default class GoldilocksEssentialsPlugin extends Plugin {
