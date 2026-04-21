@@ -22,5 +22,5 @@ export const DEFAULT_SETTINGS: GoldilocksSettings = {
   enabled: {},
   customTitles: {},
   tabColors: {},
-  compactTableSize: "xs",
+  compactTableSize: "sm",
 };
