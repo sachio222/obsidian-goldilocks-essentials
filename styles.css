@@ -37,3 +37,92 @@
   font-size: 0.85em;
   color: var(--text-muted);
 }
+
+/* ── Note width (noteWidth feature) ── */
+
+body[data-note-width="small"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="small"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="small"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 550px !important;
+}
+
+body[data-note-width="medium"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="medium"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="medium"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 700px !important;
+}
+
+body[data-note-width="default"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="default"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="default"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 760px !important;
+}
+
+body[data-note-width="large"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="large"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="large"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 850px !important;
+}
+
+body[data-note-width="xl"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="xl"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="xl"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 1050px !important;
+}
+
+body[data-note-width="full"] .markdown-source-view.is-readable-line-width .cm-sizer,
+body[data-note-width="full"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
+body[data-note-width="full"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 100% !important;
+}
+
+.note-width-status {
+  cursor: pointer;
+  padding: 0 8px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.note-width-status:hover {
+  background: var(--background-modifier-hover);
+}
+
+/* Note width picker (settings UI) */
+.setting-item.has-goldilocks-width {
+  flex-wrap: wrap;
+}
+
+.goldilocks-width-row {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--background-modifier-hover);
+  border-radius: 6px;
+}
+
+.goldilocks-width-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.goldilocks-width-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.goldilocks-width-btn:hover {
+  background: var(--background-modifier-hover);
+}
+
+.goldilocks-width-btn.is-active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
+}

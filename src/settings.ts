@@ -2,7 +2,9 @@ import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import type GoldilocksEssentialsPlugin from "./main";
 import { FEATURES } from "./main";
 import { displayName, findConflictingPlugin } from "./conflicts";
-import type { CompactTableSize } from "./types";
+import type { CompactTableSize, NoteWidthId } from "./types";
+import { NOTE_WIDTHS } from "./types";
+import { noteWidthUpdateStatusBar } from "./features/noteWidth";
 
 export class GoldilocksSettingTab extends PluginSettingTab {
   constructor(
@@ -53,6 +55,24 @@ export class GoldilocksSettingTab extends PluginSettingTab {
           const label = select.value === "xs" ? "Extra small" : "Small";
           new Notice(`Table density: ${label}. Reload plugin to apply.`);
         });
+      }
+
+      if (feature.id === "note-width" && this.plugin.isFeatureEnabled(feature.id)) {
+        setting.settingEl.addClass("has-goldilocks-width");
+        const widthRow = setting.settingEl.createDiv({ cls: "goldilocks-width-row" });
+        const btnContainer = widthRow.createDiv({ cls: "goldilocks-width-buttons" });
+        for (const w of NOTE_WIDTHS) {
+          const btn = btnContainer.createEl("button", { text: w.name, cls: "goldilocks-width-btn" });
+          if (this.plugin.settings.noteWidth === w.id) btn.addClass("is-active");
+          btn.addEventListener("click", async () => {
+            this.plugin.settings.noteWidth = w.id as NoteWidthId;
+            await this.plugin.saveSettings();
+            document.body.setAttribute("data-note-width", w.id);
+            noteWidthUpdateStatusBar(this.plugin);
+            new Notice(`Note width: ${w.name}`);
+            this.display();
+          });
+        }
       }
     }
 
