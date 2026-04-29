@@ -16,24 +16,9 @@ A curated kit of small UX upgrades — the ones that make Obsidian feel *just ri
 | **Compact tables** | Tighter table styling — less padding, smaller font. Pick *Small* or *Extra small* density in settings. |
 | **Note width** | Adjust note width with six presets (S / M / D / L / XL / Full). Click the status bar widget to cycle, or bind a hotkey to "Cycle note width" / a specific preset. |
 
-## Why one plugin instead of five?
+## Why one plugin instead of seven?
 
 Because each feature is tiny and you probably want the whole curated set. One install, one settings pane, one update.
-
-## Conflicts with standalone plugins
-
-If you already have one of these installed as a standalone plugin, Goldilocks will detect it on load, skip that feature, and show a notice. You can also disable the feature manually in settings. The standalone plugin ids that trigger auto-skip:
-
-| Feature | Conflicts with |
-|---|---|
-| Tab rename & colors | `tab-rename` |
-| Smart new-note placement | `new-note-in-folder` |
-| Print from menu | `print-note` |
-| Press E to edit | `press-e-for-edit` |
-| Community plugins ribbon | `plugin-store-shortcut` |
-| Note width | `note-width` |
-
-Compact tables doesn't auto-skip — it's pure CSS, so if you have another table-density plugin running, just toggle this one off in settings.
 
 ## Installation
 
