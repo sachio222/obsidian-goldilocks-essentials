@@ -16,7 +16,7 @@ A curated kit of small UX upgrades — the ones that make Obsidian feel *just ri
 | **Compact tables** | Tighter table styling — less padding, smaller font. Pick *Small* or *Extra small* density in settings. |
 | **Note width** | Adjust note width with six presets (S / M / D / L / XL / Full). Click the status bar widget to cycle, or bind a hotkey to "Cycle note width" / a specific preset. |
 
-## Why one plugin instead of seven?
+## Why one plugin instead of many?
 
 Because each feature is tiny and you probably want the whole curated set. One install, one settings pane, one update.
 
