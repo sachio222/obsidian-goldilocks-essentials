@@ -6,8 +6,8 @@ let handler: ((e: KeyboardEvent) => void) | null = null;
 
 export const pressEForEdit: Feature = {
   id: "press-e-for-edit",
-  name: "Press E to edit, Escape to preview",
-  description: "In reading mode, press E to switch to edit. In edit mode, Escape switches back.",
+  name: "Press e to edit, escape to preview",
+  description: "In reading mode, press e to switch to edit. In edit mode, press escape to switch back.",
   conflictsWith: ["press-e-for-edit"],
 
   load(plugin: GoldilocksEssentialsPlugin) {

@@ -18,7 +18,6 @@ export class GoldilocksSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl).setName("Goldilocks Essentials").setHeading();
     containerEl.createEl("p", {
       text: "A curated kit of small UX upgrades. Toggle any feature off if you prefer a standalone plugin for it \u2014 Goldilocks will auto-skip features whose standalone siblings are enabled.",
     });

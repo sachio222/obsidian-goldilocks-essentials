@@ -5,8 +5,8 @@ export interface Feature {
   name: string;
   description: string;
   conflictsWith: string[];
-  load(plugin: GoldilocksEssentialsPlugin): void;
-  unload(plugin: GoldilocksEssentialsPlugin): void;
+  load: (plugin: GoldilocksEssentialsPlugin) => void;
+  unload: (plugin: GoldilocksEssentialsPlugin) => void;
 }
 
 export type CompactTableSize = "xs" | "sm";
