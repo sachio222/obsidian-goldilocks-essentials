@@ -40,29 +40,30 @@ async function printNote(plugin: GoldilocksEssentialsPlugin, view: MarkdownView)
   ].join("\n");
 
   const iframe = document.createElement("iframe");
-  iframe.style.cssText = "position:fixed;top:-10000px;left:-10000px;width:800px;height:600px;border:none;";
+  iframe.addClass("goldilocks-print-iframe");
+  iframe.srcdoc = html;
   document.body.appendChild(iframe);
 
-  const iframeDoc = iframe.contentDocument ?? iframe.contentWindow?.document;
-  if (!iframeDoc) {
-    document.body.removeChild(iframe);
-    return;
-  }
-  iframeDoc.open();
-  iframeDoc.write(html);
-  iframeDoc.close();
+  const cleanup = () => {
+    if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+  };
 
-  window.setTimeout(() => {
-    iframe.contentWindow?.focus();
-    iframe.contentWindow?.print();
-    window.setTimeout(() => document.body.removeChild(iframe), 1000);
-  }, 300);
+  iframe.addEventListener("load", () => {
+    const win = iframe.contentWindow;
+    if (!win) {
+      cleanup();
+      return;
+    }
+    win.focus();
+    win.print();
+    window.setTimeout(cleanup, 1000);
+  });
 }
 
 export const printFromMenu: Feature = {
   id: "print-from-menu",
   name: "Print from right-click menu",
-  description: "Adds Print… to the right-click menu for markdown files, plus a Print current note command.",
+  description: "Adds Print\u2026 to the right-click menu for markdown files, plus a Print current note command.",
   conflictsWith: ["print-note"],
 
   load(plugin: GoldilocksEssentialsPlugin) {
@@ -83,7 +84,7 @@ export const printFromMenu: Feature = {
         if (!(file instanceof TFile) || file.extension !== "md") return;
         menu.addItem((item) => {
           item
-            .setTitle("Print…")
+            .setTitle("Print\u2026")
             .setIcon("printer")
             .setSection("action")
             .onClick(async () => {
@@ -99,7 +100,6 @@ export const printFromMenu: Feature = {
 
   unload() {
     // Command + event are registered through plugin.addCommand/registerEvent,
-    // so Obsidian unregisters them automatically on plugin unload. We only need
-    // manual cleanup for non-registered listeners.
+    // so Obsidian unregisters them automatically on plugin unload.
   },
 };

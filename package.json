@@ -1,6 +1,6 @@
 {
   "name": "obsidian-goldilocks-essentials",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A curated kit of small, opt-in UX upgrades for Obsidian.",
   "main": "main.js",
   "scripts": {

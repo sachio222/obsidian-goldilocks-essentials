@@ -17,7 +17,7 @@ function updateStatusBar(plugin: GoldilocksEssentialsPlugin): void {
 
 function setWidth(plugin: GoldilocksEssentialsPlugin, id: NoteWidthId): void {
   plugin.settings.noteWidth = id;
-  plugin.saveSettings();
+  void plugin.saveSettings();
   applyWidth(id);
   updateStatusBar(plugin);
   const w = NOTE_WIDTHS.find((x) => x.id === id);

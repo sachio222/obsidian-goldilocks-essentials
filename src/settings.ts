@@ -2,7 +2,7 @@ import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import type GoldilocksEssentialsPlugin from "./main";
 import { FEATURES } from "./main";
 import { displayName, findConflictingPlugin } from "./conflicts";
-import type { CompactTableSize, NoteWidthId } from "./types";
+import type { CompactTableSize } from "./types";
 import { NOTE_WIDTHS } from "./types";
 import { noteWidthUpdateStatusBar } from "./features/noteWidth";
 
@@ -18,9 +18,9 @@ export class GoldilocksSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Goldilocks Essentials" });
+    new Setting(containerEl).setName("Goldilocks Essentials").setHeading();
     containerEl.createEl("p", {
-      text: "A curated kit of small UX upgrades. Toggle any feature off if you prefer a standalone plugin for it — Goldilocks will auto-skip features whose standalone siblings are enabled.",
+      text: "A curated kit of small UX upgrades. Toggle any feature off if you prefer a standalone plugin for it \u2014 Goldilocks will auto-skip features whose standalone siblings are enabled.",
     });
 
     for (const feature of FEATURES) {
@@ -29,9 +29,9 @@ export class GoldilocksSettingTab extends PluginSettingTab {
       const conflict = findConflictingPlugin(this.app, feature.conflictsWith);
       if (conflict) {
         const warning = containerEl.createEl("div", {
-          text: `Standalone plugin "${displayName(this.app, conflict)}" is enabled — this feature is skipped to avoid conflicts.`,
+          text: `Standalone plugin "${displayName(this.app, conflict)}" is enabled \u2014 this feature is skipped to avoid conflicts.`,
         });
-        warning.style.cssText = "color: var(--text-warning); font-size: 0.85em; margin: -0.5em 0 1em 0;";
+        warning.addClass("goldilocks-conflict-warning");
       }
 
       setting.addToggle((toggle) =>
@@ -44,16 +44,18 @@ export class GoldilocksSettingTab extends PluginSettingTab {
       if (feature.id === "compact-tables" && this.plugin.isFeatureEnabled(feature.id)) {
         setting.settingEl.addClass("has-goldilocks-density");
         const densityRow = setting.settingEl.createDiv({ cls: "goldilocks-density-row" });
-        densityRow.createSpan({ text: "Choose Small or Extra small density.", cls: "goldilocks-density-label" });
+        densityRow.createSpan({ text: "Choose small or extra small density.", cls: "goldilocks-density-label" });
         const select = densityRow.createEl("select", { cls: "dropdown" });
         select.createEl("option", { text: "Extra small", value: "xs" });
         select.createEl("option", { text: "Small", value: "sm" });
         select.value = this.plugin.settings.compactTableSize;
-        select.addEventListener("change", async () => {
-          this.plugin.settings.compactTableSize = select.value as CompactTableSize;
-          await this.plugin.saveSettings();
-          const label = select.value === "xs" ? "Extra small" : "Small";
-          new Notice(`Table density: ${label}. Reload plugin to apply.`);
+        select.addEventListener("change", () => {
+          const size = select.value as CompactTableSize;
+          this.plugin.settings.compactTableSize = size;
+          void this.plugin.saveSettings().then(() => {
+            const label = size === "xs" ? "Extra small" : "Small";
+            new Notice(`Table density: ${label}. Reload plugin to apply.`);
+          });
         });
       }
 
@@ -64,13 +66,14 @@ export class GoldilocksSettingTab extends PluginSettingTab {
         for (const w of NOTE_WIDTHS) {
           const btn = btnContainer.createEl("button", { text: w.name, cls: "goldilocks-width-btn" });
           if (this.plugin.settings.noteWidth === w.id) btn.addClass("is-active");
-          btn.addEventListener("click", async () => {
-            this.plugin.settings.noteWidth = w.id as NoteWidthId;
-            await this.plugin.saveSettings();
-            document.body.setAttribute("data-note-width", w.id);
-            noteWidthUpdateStatusBar(this.plugin);
-            new Notice(`Note width: ${w.name}`);
-            this.display();
+          btn.addEventListener("click", () => {
+            this.plugin.settings.noteWidth = w.id;
+            void this.plugin.saveSettings().then(() => {
+              document.body.setAttribute("data-note-width", w.id);
+              noteWidthUpdateStatusBar(this.plugin);
+              new Notice(`Note width: ${w.name}`);
+              this.display();
+            });
           });
         }
       }

@@ -41,10 +41,9 @@ class RenameModal extends Modal {
   }
 
   onOpen() {
-    this.contentEl.createEl("h3", { text: this.heading });
+    this.titleEl.setText(this.heading);
     this.inputEl = this.contentEl.createEl("input", { type: "text", value: this.currentName });
-    this.inputEl.style.cssText =
-      "width:100%;padding:8px;font-size:14px;margin-bottom:12px;border-radius:4px;border:1px solid var(--background-modifier-border);background:var(--background-primary);color:var(--text-normal)";
+    this.inputEl.addClass("goldilocks-rename-input");
     window.setTimeout(() => {
       this.inputEl.focus();
       this.inputEl.select();
@@ -57,7 +56,7 @@ class RenameModal extends Modal {
       if (e.key === "Escape") this.close();
     });
     const btns = this.contentEl.createDiv();
-    btns.style.cssText = "display:flex;justify-content:flex-end;gap:8px";
+    btns.addClass("goldilocks-modal-buttons");
     btns.createEl("button", { text: "Cancel" }).addEventListener("click", () => this.close());
     btns.createEl("button", { text: "Rename", cls: "mod-cta" }).addEventListener("click", () => this.submit());
   }
@@ -122,17 +121,18 @@ function setTabColor(plugin: GoldilocksEssentialsPlugin, leaf: LeafWithTabHeader
 function promptTabRename(plugin: GoldilocksEssentialsPlugin, leaf: LeafWithTabHeader): void {
   if (!leaf.id) return;
   const current = plugin.settings.customTitles[leaf.id] ?? leaf.getDisplayText();
-  new RenameModal(plugin.app, "Rename tab", current, async (newTitle) => {
+  new RenameModal(plugin.app, "Rename tab", current, (newTitle) => {
     if (!newTitle || !leaf.id) return;
     plugin.settings.customTitles[leaf.id] = newTitle;
-    await plugin.saveSettings();
-    applyCustomTitle(plugin, leaf);
-    new Notice(`Tab renamed to ${newTitle}`);
+    void plugin.saveSettings().then(() => {
+      applyCustomTitle(plugin, leaf);
+      new Notice(`Tab renamed to ${newTitle}`);
+    });
   }).open();
 }
 
 function promptFileRename(plugin: GoldilocksEssentialsPlugin, file: TFile): void {
-  new RenameModal(plugin.app, "Rename file", file.basename, async (newName) => {
+  new RenameModal(plugin.app, "Rename file", file.basename, (newName) => {
     if (!newName || newName === file.basename) return;
     const newPath = file.parent
       ? `${file.parent.path}/${newName}.${file.extension}`
@@ -141,8 +141,9 @@ function promptFileRename(plugin: GoldilocksEssentialsPlugin, file: TFile): void
       new Notice("A file with that name already exists.");
       return;
     }
-    await plugin.app.fileManager.renameFile(file, newPath);
-    new Notice(`Renamed to ${newName}`);
+    void plugin.app.fileManager.renameFile(file, newPath).then(() => {
+      new Notice(`Renamed to ${newName}`);
+    });
   }).open();
 }
 
@@ -205,7 +206,7 @@ export const tabColorsRename: Feature = {
     });
 
     origShowAtMouseEvent = Menu.prototype.showAtMouseEvent;
-    Menu.prototype.showAtMouseEvent = function (evt: MouseEvent) {
+    Menu.prototype.showAtMouseEvent = function (this: Menu, evt: MouseEvent) {
       if (pendingLeaf) {
         addTabMenuItems(plugin, this, pendingLeaf);
         pendingLeaf = null;
@@ -214,7 +215,7 @@ export const tabColorsRename: Feature = {
     };
 
     origShowAtPosition = Menu.prototype.showAtPosition as ShowAtPosition;
-    Menu.prototype.showAtPosition = function (position: { x: number; y: number }, doc?: Document) {
+    Menu.prototype.showAtPosition = function (this: Menu, position: { x: number; y: number }, doc?: Document) {
       if (pendingLeaf) {
         addTabMenuItems(plugin, this, pendingLeaf);
         pendingLeaf = null;
@@ -226,7 +227,7 @@ export const tabColorsRename: Feature = {
       id: "rename-active-tab",
       name: "Rename active tab",
       callback: () => {
-        const leaf = plugin.app.workspace.activeLeaf as LeafWithTabHeader | null;
+        const leaf = plugin.app.workspace.getMostRecentLeaf() as LeafWithTabHeader | null;
         if (leaf) promptTabRename(plugin, leaf);
       },
     });
