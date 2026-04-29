@@ -33,10 +33,25 @@ Because each feature is tiny and you probably want the whole curated set. One in
 
 BRAT will auto-update the plugin whenever a new release is published.
 
-**Manual:**
-1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/sachio222/obsidian-goldilocks-essentials/releases/latest).
-2. Create a folder `.obsidian/plugins/goldilocks-essentials/` in your vault and drop the three files in.
-3. In Obsidian, go to **Settings → Community plugins**, click the reload icon, and enable **Goldilocks Essentials**.
+**Manual (one-liner):** from your vault root, run:
+
+```bash
+mkdir -p .obsidian/plugins/goldilocks-essentials && cd $_ && \
+  for f in main.js manifest.json styles.css; do \
+    curl -LO https://github.com/sachio222/obsidian-goldilocks-essentials/releases/latest/download/$f; \
+  done
+```
+
+Then in Obsidian, **Settings → Community plugins**, hit the reload icon, and enable **Goldilocks Essentials**.
+
+**Manual (clone + build):** if you'd rather build from source:
+
+```bash
+git clone https://github.com/sachio222/obsidian-goldilocks-essentials \
+  /path/to/vault/.obsidian/plugins/goldilocks-essentials
+cd /path/to/vault/.obsidian/plugins/goldilocks-essentials
+pnpm install && pnpm build
+```
 
 ## Development
 
