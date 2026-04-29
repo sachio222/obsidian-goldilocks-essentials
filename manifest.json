@@ -3,7 +3,7 @@
   "name": "Goldilocks Essentials",
   "version": "0.1.1",
   "minAppVersion": "1.0.0",
-  "description": "A curated kit of small, opt-in UX upgrades for Obsidian: tab rename/colors, smart new-note placement, print from menu, press-E-to-edit, compact tables, note width, and a plugin shortcut.",
+  "description": "A curated kit of small, opt-in UX upgrades: tab rename/colors, smart new-note placement, print from menu, press-E-to-edit, compact tables, note width, and a plugin shortcut.",
   "author": "sachio222",
   "authorUrl": "https://github.com/sachio222",
   "isDesktopOnly": false
