@@ -26,8 +26,8 @@ interface LeafWithTabHeader extends WorkspaceLeaf {
 }
 
 let pendingLeaf: LeafWithTabHeader | null = null;
-let origShowAtMouseEvent: ShowAtMouseEvent | null = null;
-let origShowAtPosition: ShowAtPosition | null = null;
+let savedShowAtMouseEvent: PropertyDescriptor | null = null;
+let savedShowAtPosition: PropertyDescriptor | null = null;
 
 class RenameModal extends Modal {
   private inputEl!: HTMLInputElement;
@@ -205,23 +205,33 @@ export const tabColorsRename: Feature = {
       pendingLeaf = leaf;
     });
 
-    origShowAtMouseEvent = Menu.prototype.showAtMouseEvent;
-    Menu.prototype.showAtMouseEvent = function (this: Menu, evt: MouseEvent) {
-      if (pendingLeaf) {
-        addTabMenuItems(plugin, this, pendingLeaf);
-        pendingLeaf = null;
-      }
-      return origShowAtMouseEvent!.call(this, evt);
-    };
+    savedShowAtMouseEvent = Object.getOwnPropertyDescriptor(Menu.prototype, "showAtMouseEvent") ?? null;
+    const originalShowAtMouseEvent = (savedShowAtMouseEvent?.value ?? null) as ShowAtMouseEvent | null;
+    Object.defineProperty(Menu.prototype, "showAtMouseEvent", {
+      configurable: true,
+      writable: true,
+      value: function (this: Menu, evt: MouseEvent) {
+        if (pendingLeaf) {
+          addTabMenuItems(plugin, this, pendingLeaf);
+          pendingLeaf = null;
+        }
+        return originalShowAtMouseEvent?.call(this, evt);
+      },
+    });
 
-    origShowAtPosition = Menu.prototype.showAtPosition as ShowAtPosition;
-    Menu.prototype.showAtPosition = function (this: Menu, position: { x: number; y: number }, doc?: Document) {
-      if (pendingLeaf) {
-        addTabMenuItems(plugin, this, pendingLeaf);
-        pendingLeaf = null;
-      }
-      return origShowAtPosition!.call(this, position, doc);
-    };
+    savedShowAtPosition = Object.getOwnPropertyDescriptor(Menu.prototype, "showAtPosition") ?? null;
+    const originalShowAtPosition = (savedShowAtPosition?.value ?? null) as ShowAtPosition | null;
+    Object.defineProperty(Menu.prototype, "showAtPosition", {
+      configurable: true,
+      writable: true,
+      value: function (this: Menu, position: { x: number; y: number }, doc?: Document) {
+        if (pendingLeaf) {
+          addTabMenuItems(plugin, this, pendingLeaf);
+          pendingLeaf = null;
+        }
+        return originalShowAtPosition?.call(this, position, doc);
+      },
+    });
 
     plugin.addCommand({
       id: "rename-active-tab",
@@ -237,13 +247,13 @@ export const tabColorsRename: Feature = {
   },
 
   unload(plugin: GoldilocksEssentialsPlugin) {
-    if (origShowAtMouseEvent) {
-      Menu.prototype.showAtMouseEvent = origShowAtMouseEvent;
-      origShowAtMouseEvent = null;
+    if (savedShowAtMouseEvent) {
+      Object.defineProperty(Menu.prototype, "showAtMouseEvent", savedShowAtMouseEvent);
+      savedShowAtMouseEvent = null;
     }
-    if (origShowAtPosition) {
-      Menu.prototype.showAtPosition = origShowAtPosition;
-      origShowAtPosition = null;
+    if (savedShowAtPosition) {
+      Object.defineProperty(Menu.prototype, "showAtPosition", savedShowAtPosition);
+      savedShowAtPosition = null;
     }
     plugin.app.workspace.iterateAllLeaves((leaf) => {
       const l = leaf as LeafWithTabHeader;

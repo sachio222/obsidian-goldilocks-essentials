@@ -19,7 +19,7 @@ export class GoldilocksSettingTab extends PluginSettingTab {
     containerEl.empty();
 
     containerEl.createEl("p", {
-      text: "A curated kit of small UX upgrades. Toggle any feature off if you prefer a standalone plugin for it \u2014 Goldilocks will auto-skip features whose standalone siblings are enabled.",
+      text: "A curated kit of small UI upgrades. Toggle any feature off if you prefer a standalone plugin for it \u2014 features auto-skip when standalone siblings are enabled.",
     });
 
     for (const feature of FEATURES) {
