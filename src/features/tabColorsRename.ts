@@ -195,7 +195,7 @@ export const tabColorsRename: Feature = {
       }),
     );
 
-    plugin.registerDomEvent(document, "contextmenu", (evt) => {
+    plugin.registerDomEvent(activeDocument, "contextmenu", (evt) => {
       const target = evt.target as HTMLElement | null;
       const tabHeader = target?.closest<HTMLElement>(".workspace-tab-header");
       if (!tabHeader) return;

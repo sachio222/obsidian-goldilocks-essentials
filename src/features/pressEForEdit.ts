@@ -14,7 +14,7 @@ export const pressEForEdit: Feature = {
     handler = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
 
-      const active = document.activeElement;
+      const active = activeDocument.activeElement;
       if (e.key !== "Escape") {
         if (
           active instanceof HTMLInputElement ||
@@ -44,11 +44,11 @@ export const pressEForEdit: Feature = {
         }
       }
     };
-    document.addEventListener("keydown", handler);
+    activeDocument.addEventListener("keydown", handler);
   },
 
   unload() {
-    if (handler) document.removeEventListener("keydown", handler);
+    if (handler) activeDocument.removeEventListener("keydown", handler);
     handler = null;
   },
 };

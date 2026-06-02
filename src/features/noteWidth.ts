@@ -6,7 +6,7 @@ import { NOTE_WIDTHS } from "../types";
 let statusBarEl: HTMLElement | null = null;
 
 function applyWidth(id: NoteWidthId): void {
-  document.body.setAttribute("data-note-width", id);
+  activeDocument.body.setAttribute("data-note-width", id);
 }
 
 function updateStatusBar(plugin: GoldilocksEssentialsPlugin): void {
@@ -63,7 +63,7 @@ export const noteWidth: Feature = {
   },
 
   unload() {
-    document.body.removeAttribute("data-note-width");
+    activeDocument.body.removeAttribute("data-note-width");
     statusBarEl = null;
   },
 };

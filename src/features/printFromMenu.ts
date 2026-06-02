@@ -26,7 +26,7 @@ async function printNote(plugin: GoldilocksEssentialsPlugin, view: MarkdownView)
   if (!file) return;
 
   const content = await plugin.app.vault.read(file);
-  const container = document.createElement("div");
+  const container = createDiv();
   await MarkdownRenderer.render(plugin.app, content, container, file.path, view);
 
   const html = [
@@ -39,10 +39,10 @@ async function printNote(plugin: GoldilocksEssentialsPlugin, view: MarkdownView)
     "</body></html>",
   ].join("\n");
 
-  const iframe = document.createElement("iframe");
+  const iframe = createEl("iframe");
   iframe.addClass("goldilocks-print-iframe");
   iframe.srcdoc = html;
-  document.body.appendChild(iframe);
+  activeDocument.body.appendChild(iframe);
 
   const cleanup = () => {
     if (iframe.parentNode) iframe.parentNode.removeChild(iframe);

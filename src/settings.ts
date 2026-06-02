@@ -27,10 +27,10 @@ export class GoldilocksSettingTab extends PluginSettingTab {
 
       const conflict = findConflictingPlugin(this.app, feature.conflictsWith);
       if (conflict) {
-        const warning = containerEl.createEl("div", {
+        containerEl.createDiv({
+          cls: "goldilocks-conflict-warning",
           text: `Standalone plugin "${displayName(this.app, conflict)}" is enabled \u2014 this feature is skipped to avoid conflicts.`,
         });
-        warning.addClass("goldilocks-conflict-warning");
       }
 
       setting.addToggle((toggle) =>
@@ -68,7 +68,7 @@ export class GoldilocksSettingTab extends PluginSettingTab {
           btn.addEventListener("click", () => {
             this.plugin.settings.noteWidth = w.id;
             void this.plugin.saveSettings().then(() => {
-              document.body.setAttribute("data-note-width", w.id);
+              activeDocument.body.setAttribute("data-note-width", w.id);
               noteWidthUpdateStatusBar(this.plugin);
               new Notice(`Note width: ${w.name}`);
               this.display();

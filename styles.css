@@ -160,7 +160,7 @@ body[data-note-width="full"] .markdown-preview-view .markdown-preview-sizer {
 .goldilocks-conflict-warning {
   color: var(--text-warning);
   font-size: 0.85em;
-  margin: -0.5em 0 1em 0;
+  margin: -0.5em 0 1em;
 }
 
 /* Rename modal (tabColorsRename feature) */

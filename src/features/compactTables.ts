@@ -4,11 +4,11 @@ import type { Feature, CompactTableSize } from "../types";
 const BODY_ATTR = "data-goldilocks-compact-tables";
 
 function applyDensity(size: CompactTableSize): void {
-  document.body.setAttribute(BODY_ATTR, size);
+  activeDocument.body.setAttribute(BODY_ATTR, size);
 }
 
 function clearDensity(): void {
-  document.body.removeAttribute(BODY_ATTR);
+  activeDocument.body.removeAttribute(BODY_ATTR);
 }
 
 export const compactTables: Feature = {

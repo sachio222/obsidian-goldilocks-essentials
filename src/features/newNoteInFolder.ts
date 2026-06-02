@@ -11,18 +11,18 @@ let clickListener: ((evt: MouseEvent) => void) | null = null;
 function selectFolder(folder: TFolder): void {
   clearSelection();
   selectedFolder = folder;
-  const el = document.querySelector(`.nav-folder-title[data-path="${CSS.escape(folder.path)}"]`);
+  const el = activeDocument.querySelector(`.nav-folder-title[data-path="${CSS.escape(folder.path)}"]`);
   if (el) el.classList.add("is-selected-folder");
 }
 
 function clearSelection(): void {
   selectedFolder = null;
-  document.querySelectorAll(".is-selected-folder").forEach((el) => el.classList.remove("is-selected-folder"));
+  activeDocument.querySelectorAll(".is-selected-folder").forEach((el) => el.classList.remove("is-selected-folder"));
 }
 
 function expandFolder(folder: TFolder | null): void {
   if (!folder || folder.path === "/") return;
-  const folderEl = document.querySelector<HTMLElement>(
+  const folderEl = activeDocument.querySelector<HTMLElement>(
     `.nav-folder-title[data-path="${CSS.escape(folder.path)}"]`,
   );
   if (!folderEl) return;
@@ -102,7 +102,7 @@ export const newNoteInFolder: Feature = {
 
       clearSelection();
     };
-    plugin.registerDomEvent(document, "click", clickListener);
+    plugin.registerDomEvent(activeDocument, "click", clickListener);
 
     plugin.addCommand({
       id: "new-note-in-current-folder",
