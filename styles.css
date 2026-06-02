@@ -38,41 +38,70 @@
   color: var(--text-muted);
 }
 
-/* ── Note width (noteWidth feature) ── */
+/* ── Note width (noteWidth feature) ──
+   Works whether Obsidian's "Readable line length" is on or off:
+   - Overrides --file-line-width (the variable readable-line-length reads from).
+   - Forces max-width on the sizer/container so unrestricted views also clamp.
+   - 100% width on .markdown-source-view/.markdown-preview-view neutralizes any
+     wrapper that capped the column before the sizer ever got a chance. */
 
-body[data-note-width="small"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="small"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="small"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="small"] {
+  --file-line-width: 550px;
+}
+body[data-note-width="medium"] {
+  --file-line-width: 700px;
+}
+body[data-note-width="default"] {
+  --file-line-width: 760px;
+}
+body[data-note-width="large"] {
+  --file-line-width: 850px;
+}
+body[data-note-width="xl"] {
+  --file-line-width: 1050px;
+}
+body[data-note-width="full"] {
+  --file-line-width: 100%;
+}
+
+body[data-note-width] .markdown-source-view,
+body[data-note-width] .markdown-preview-view {
+  max-width: 100% !important;
+}
+
+body[data-note-width="small"] .markdown-source-view .cm-sizer,
+body[data-note-width="small"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="small"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 550px !important;
 }
 
-body[data-note-width="medium"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="medium"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="medium"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="medium"] .markdown-source-view .cm-sizer,
+body[data-note-width="medium"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="medium"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 700px !important;
 }
 
-body[data-note-width="default"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="default"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="default"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="default"] .markdown-source-view .cm-sizer,
+body[data-note-width="default"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="default"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 760px !important;
 }
 
-body[data-note-width="large"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="large"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="large"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="large"] .markdown-source-view .cm-sizer,
+body[data-note-width="large"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="large"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 850px !important;
 }
 
-body[data-note-width="xl"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="xl"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="xl"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="xl"] .markdown-source-view .cm-sizer,
+body[data-note-width="xl"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="xl"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 1050px !important;
 }
 
-body[data-note-width="full"] .markdown-source-view.is-readable-line-width .cm-sizer,
-body[data-note-width="full"] .markdown-source-view.is-readable-line-width .cm-contentContainer,
-body[data-note-width="full"] .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+body[data-note-width="full"] .markdown-source-view .cm-sizer,
+body[data-note-width="full"] .markdown-source-view .cm-contentContainer,
+body[data-note-width="full"] .markdown-preview-view .markdown-preview-sizer {
   max-width: 100% !important;
 }
 
