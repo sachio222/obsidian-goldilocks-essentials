@@ -22,9 +22,14 @@ Because each feature is tiny and you probably want the whole curated set. One in
 
 ## Installation
 
-**Community store** (once published): search "Goldilocks Essentials".
+**Community plugins (recommended):**
+1. In Obsidian, open **Settings → Community plugins → Browse**.
+2. Search **Goldilocks Essentials**.
+3. Install, then enable.
 
-**Via BRAT** (recommended until it's in the community store):
+Or open it directly: [obsidian://show-plugin?id=goldilocks-essentials](obsidian://show-plugin?id=goldilocks-essentials) · [Community page](https://community.obsidian.md/plugins/goldilocks-essentials).
+
+**Via BRAT** (for unreleased/beta builds straight off `main`):
 1. Install [BRAT](https://github.com/TfTHacker/obsidian42-brat) from the community store and enable it.
 2. Open the command palette and run **BRAT: Add a beta plugin for testing**.
 3. Paste the repo URL: `https://github.com/sachio222/obsidian-goldilocks-essentials`
